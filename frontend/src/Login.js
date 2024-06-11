@@ -1,25 +1,25 @@
-import React from 'react'
+import React from 'react';
 
 function Login() {
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
       <div className='bg-white p-3 rounded w-25'>
         <form action=''>
-          <div classname='mb-3'>
+          <div className='mb-3'>
             <label htmlFor='email'>Email</label>
-            <input type='email' placeholder='Enter Email' />
+            <input type='email' placeholder='Enter Email' className='form-control rounded-0'/>
           </div>
-          <div classname='mb-3'>
+          <div className='mb-3'>
             <label htmlFor='password'>Password</label>
-            <input type='password' placeholder='Enter Password' />
+            <input type='password' placeholder='Enter Password' className='form-control rounded-0'/>
           </div>
-          <button className='btn btn-succcess'>Login</button>
-          <p> Don't have an account? <a href='/register'>Register</a></p>
-          <button className='btn btn-default border'>Create Account</button>
+          <button className='btn btn-success w-100'>Login</button>
+          <p> You agree to our terms and policies.</p>
+          <button className='btn btn-default border w-100'>Create Account</button>
         </form>
       </div>
     </div>
   )
 }
 
-export default Login
+export default Login;
