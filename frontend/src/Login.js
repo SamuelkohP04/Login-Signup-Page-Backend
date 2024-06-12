@@ -20,19 +20,29 @@ function Login() {
     e.preventDefault();
     const validationErrors = Validation(values);
     setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
+    console.log('Form submitted');  // Add this line
+    console.log('Validation Errors:', validationErrors);  // Add this line
+    
+    // Check if there are no errors (i.e., no error messages)
+    if (Object.values(validationErrors).every(error => error === '')) {
+      console.log('Sending POST request');  // Add this line
       axios.post('http://localhost:7999/login', values)
         .then(res => {
-          console.log(res);
-          // Navigate to another page after successful login
-          navigate('/dashboard'); 
+          console.log('Response:', res);  // Add this line
+          if(res.data === "Successfully logged in") {
+            navigate('/home');
+          } else {
+            alert("No record found");
+          }
         })
         .catch(err => {
-          console.log(err);
+          console.log('Error:', err);  // Add this line
         });
     }
   };
-
+  
+  
+  
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
       <div className='bg-white p-3 rounded w-25'>

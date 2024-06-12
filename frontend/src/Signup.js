@@ -11,6 +11,8 @@ function Signup() {
     password: ''
   });
   const navigate = useNavigate();
+
+  
   const [errors, setErrors] = useState({});
 
   const handleInput = (e) => {

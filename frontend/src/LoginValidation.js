@@ -10,9 +10,6 @@ function validation(values) {
   } else if (!email_pattern.test(values.email)) {
     error.email = 'Invalid email format';
   }
-  else {
-    error.email = '';
-  }
 
 
   if (values.password === '') {
@@ -21,9 +18,7 @@ function validation(values) {
   else if (!password_pattern.test(values.password)) {
     error.password = 'Invalid password format';
   }
-  else {
-    error.password = '';
-  }
+
   return error;
 }
 
