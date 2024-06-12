@@ -1,7 +1,8 @@
+// Signup.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Validation from './SignupValidation';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Validation from './SignupValidation';
 
 function Signup() {
   const [values, setValues] = useState({
@@ -16,18 +17,15 @@ function Signup() {
     setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(Validation(values));
-    // if there are no errors, proceed to the next page
-    if (errors.name === "" && errors.email === "" && errors.password === "") {
-      console.log("All fields are valid");
-      axios.post('http://localhost:3000/signup', values)
+    const validationErrors = Validation(values);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
+      axios.post('http://localhost:7999/signup', values)
         .then(res => {
           console.log(res);
-          navigate('/'); // navigate using reat-router-dom
+          navigate('/'); // Navigate to the login page after successful signup
         })
         .catch(err => {
           console.log(err);
@@ -35,13 +33,11 @@ function Signup() {
     }
   };
 
-
-
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
       <div className='bg-white p-3 rounded w-25'>
         <h2>Sign Up</h2> 
-        <form action='' onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='name'><strong>Name</strong></label>
             <input 

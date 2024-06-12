@@ -13,10 +13,11 @@ const db = mysql.createConnection({
   database: 'signup'
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 7999;
 
 app.post('/signup', (req, res) => {
-  const sql = "INSERT INTO login(`name`, `email`, `password`) VALUES (?, ?, ?)";
+  console.log('inserting into DB');
+  const sql = "INSERT INTO login(`name`, `email`, `password`) VALUES (?)";
   const values = [
     req.body.name,
     req.body.email,
@@ -24,10 +25,12 @@ app.post('/signup', (req, res) => {
   ]
   db.query(sql, [values], (err, data) => {
     if (err) {
-      res.status(500).send(err);
-      return res.json('Error');
+      console.log("The error is", err);
+      //res.status(500).send(err);
+      return res.status(500).send(err);
     } else {
       return res.status(200).send(data); 
+      console.log("Successfully inserted into DB"); 
     }
   });
 });
