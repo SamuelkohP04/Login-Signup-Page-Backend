@@ -1,4 +1,5 @@
 function validation(values) {
+  console.log("Entered the validation function for signup");
   let error = {};
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const password_pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -18,7 +19,7 @@ function validation(values) {
   } else if (!password_pattern.test(values.password)) {
     error.password = 'Invalid password format';
   }
-
+  console.log("Value of error is", error);  
   return error;
 }
 

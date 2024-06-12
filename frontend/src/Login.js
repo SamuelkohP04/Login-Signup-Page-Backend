@@ -1,5 +1,7 @@
-import React, { useState } from 'react';  // Add useState to the import
-import { Link } from 'react-router-dom';
+// Login.js
+import React, { useState } from 'react';  
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Validation from './LoginValidation';
 
 function Login() {
@@ -7,8 +9,8 @@ function Login() {
     email: '',
     password: ''
   });
-
-  const [errors, setErrors] = useState({ });
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const handleInput = (e) => {
     setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -16,14 +18,36 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(Validation(values));
+    const validationErrors = Validation(values);
+    setErrors(validationErrors);
+    console.log('Form submitted');  // Add this line
+    console.log('Validation Errors:', validationErrors);  // Add this line
+    
+    // Check if there are no errors (i.e., no error messages)
+    if (Object.values(validationErrors).every(error => error === '')) {
+      console.log('Sending POST request');  // Add this line
+      axios.post('http://localhost:7999/login', values)
+        .then(res => {
+          console.log('Response:', res);  // Add this line
+          if(res.data === "Successfully logged in") {
+            navigate('/home');
+          } else {
+            alert("No record found");
+          }
+        })
+        .catch(err => {
+          console.log('Error:', err);  // Add this line
+        });
+    }
   };
-
+  
+  
+  
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
       <div className='bg-white p-3 rounded w-25'>
         <h2>Log In</h2>
-        <form action='' onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='email'><strong>Email</strong></label>
             <input 

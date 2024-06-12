@@ -1,5 +1,7 @@
+// Signup.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Validation from './SignupValidation';
 
 function Signup() {
@@ -8,7 +10,9 @@ function Signup() {
     email: '',
     password: ''
   });
+  const navigate = useNavigate();
 
+  
   const [errors, setErrors] = useState({});
 
   const handleInput = (e) => {
@@ -17,14 +21,25 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(Validation(values));
+    const validationErrors = Validation(values);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
+      axios.post('http://localhost:7999/signup', values)
+        .then(res => {
+          console.log(res);
+          navigate('/'); // Navigate to the login page after successful signup
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
       <div className='bg-white p-3 rounded w-25'>
         <h2>Sign Up</h2> 
-        <form action='' onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='name'><strong>Name</strong></label>
             <input 
