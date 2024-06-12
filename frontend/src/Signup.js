@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Validation from './SignupValidation';
+import axios from 'axios';
 
 function Signup() {
   const [values, setValues] = useState({
@@ -8,17 +9,33 @@ function Signup() {
     email: '',
     password: ''
   });
-
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
   const handleInput = (e) => {
     setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(Validation(values));
+    // if there are no errors, proceed to the next page
+    if (errors.name === "" && errors.email === "" && errors.password === "") {
+      console.log("All fields are valid");
+      axios.post('http://localhost:3000/signup', values)
+        .then(res => {
+          console.log(res);
+          navigate('/'); // navigate using reat-router-dom
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
+
+
 
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
